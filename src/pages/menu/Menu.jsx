@@ -10,12 +10,12 @@ import SalatImage from '../../assets/menu/salad-bg.jpg'
 import SoupImage from '../../assets/menu/soup-bg.jpg'
 
 const Menu = () => {
-    const [menu,setMenu]=useMenu(); //using custom Hook
-    const deserts=menu.filter((item)=> item.category==='dessert');
-    const soup=menu.filter((item)=> item.category==='soup');
-    const salad=menu.filter((item)=> item.category==='salad');
-    const pizza=menu.filter((item)=> item.category==='pizza');
-    const offered=menu.filter((item)=> item.category==='offered');
+    const [menu, setMenu] = useMenu(); //using custom Hook
+    const deserts = menu.filter((item) => item.category === 'dessert');
+    const soup = menu.filter((item) => item.category === 'soup');
+    const salad = menu.filter((item) => item.category === 'salad');
+    const pizza = menu.filter((item) => item.category === 'pizza');
+    const offered = menu.filter((item) => item.category === 'offered');
 
 
     return (
@@ -23,25 +23,26 @@ const Menu = () => {
             <Helmet>
                 <title>Bistro | Menu</title>
             </Helmet>
-            
 
-             {/* todays Offered */}
-            <SectionTitle heading="Todays Offer" subHeading="Don't Miss"></SectionTitle>
-            <MenuCategory items={offered} coverImg={menubg}></MenuCategory>
+            <div className="pt-[100px]">
+                {/* todays Offered */}
+                <SectionTitle heading="Todays Offer" subHeading="Don't Miss"></SectionTitle>
+                <MenuCategory items={offered} coverImg={menubg}></MenuCategory>
 
 
-            {/* Desert menu items */}
-            <MenuCategory items={deserts} title="Deserts" coverImg={DesertImage}></MenuCategory>
+                {/* Desert menu items */}
+                <MenuCategory items={deserts} title="Deserts" coverImg={DesertImage}></MenuCategory>
 
-          
-            {/* Pizza menu items */}
-            <MenuCategory items={pizza} title="Pizza" coverImg={PizzaImage}></MenuCategory>
-            
-            {/* Salad menu items */}
-            <MenuCategory items={salad} title="Salat" coverImg={SalatImage}></MenuCategory>
 
-             {/* Soup menu items */}
-             <MenuCategory items={soup} title="Soup" coverImg={SoupImage}></MenuCategory>
+                {/* Pizza menu items */}
+                <MenuCategory items={pizza} title="Pizza" coverImg={PizzaImage}></MenuCategory>
+
+                {/* Salad menu items */}
+                <MenuCategory items={salad} title="Salat" coverImg={SalatImage}></MenuCategory>
+
+                {/* Soup menu items */}
+                <MenuCategory items={soup} title="Soup" coverImg={SoupImage}></MenuCategory>
+            </div>
         </div>
     );
 };
