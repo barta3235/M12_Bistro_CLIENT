@@ -22,6 +22,10 @@ import Order from "../pages/order/order/Order";
         {
           path: '/order',
           element:<Order></Order>
+        },
+        {
+          path: '/order/:category',
+          element:<Order></Order>
         }
       ]
     },

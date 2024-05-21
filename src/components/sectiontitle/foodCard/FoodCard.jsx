@@ -5,13 +5,14 @@ const FoodCard = ({item}) => {
 
     return (
         <div>
-            <div className="card w-96 bg-base-100 shadow-xl">
-                <figure><img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></figure>
-                <div className="card-body">
-                    <h2 className="card-title">Shoes!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
+            <div className="card bg-base-100 relative shadow-xl mx-[10px]">
+                <figure><img className="w-full" src={image} alt="Shoes" /></figure>
+                <p className="bg-black absolute right-0 mr-2 mt-2 px-2 text-white font-medium w-[50px]">${price}</p>
+                <div className="card-body flex flex-col justify-center items-center">
+                    <h2 className="card-title">{name}</h2>
+                    <p>{recipe}</p>
                     <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Buy Now</button>
+                        <button className="btn btn-outline border-orange-400 border-0 bg-slate-100 border-b-4 mt-4">Add to Cart</button>
                     </div>
                 </div>
             </div>
