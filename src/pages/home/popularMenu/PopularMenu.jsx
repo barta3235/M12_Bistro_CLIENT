@@ -1,22 +1,26 @@
-import { useEffect } from "react";
 import SectionTitle from "../../../components/sectiontitle/SectionTitle";
-import { useState } from "react";
+import useMenu from "../../../hooks/useMenu";
 import MenuItem from "../../../shared/menuItem/MenuItem";
 
 const PopularMenu = () => {
-    
-    const [menu,setMenu]= useState([]);
+
+    const [menu,setMenu]=useMenu(); //using hooks
 
 
-    useEffect(()=>{
-        fetch('menu.json')
-        .then(res=>res.json())
-        .then(data=> {
-            const popularItems= data.filter(item=>item.category==='popular');
-            setMenu(popularItems);
-            console.log(popularItems)
-        })
-    },[])
+    const popular= menu.filter((item)=>item.category==='popular');
+
+
+
+    // const [menu, setMenu] = useState([]);
+    // useEffect(() => {
+    //     fetch('menu.json')
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             const popularItems = data.filter(item => item.category === 'popular');
+    //             setMenu(popularItems);
+    //             console.log(popularItems)
+    //         })
+    // }, [])
 
 
     return (
@@ -24,7 +28,10 @@ const PopularMenu = () => {
             <SectionTitle heading={"From Our Menu"} subHeading={"Popular Menu"}>
             </SectionTitle>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                {menu.map((item)=><MenuItem key={item._id} item={item}></MenuItem>)}
+                {popular.map((item) => <MenuItem key={item._id} item={item}></MenuItem>)}
+            </div>
+            <div className="flex justify-center items-center">
+                <button className="btn btn-outline border-0 border-b-4"><h1>View Full menu</h1></button>
             </div>
         </div>
     );
