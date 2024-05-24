@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import menubg from '../../assets/menu/banner3.jpg'
-import PopularMenu from "../home/popularMenu/PopularMenu";
 import useMenu from "../../hooks/useMenu";
 import SectionTitle from "../../components/sectiontitle/SectionTitle";
 import MenuCategory from "./menuCategory/MenuCategory";
@@ -37,8 +36,10 @@ const Menu = () => {
                 {/* Pizza menu items */}
                 <MenuCategory items={pizza} title="pizza" coverImg={PizzaImage}></MenuCategory>
 
+
                 {/* Salad menu items */}
                 <MenuCategory items={salad} title="salad" coverImg={SalatImage}></MenuCategory>
+
 
                 {/* Soup menu items */}
                 <MenuCategory items={soup} title="soup" coverImg={SoupImage}></MenuCategory>
