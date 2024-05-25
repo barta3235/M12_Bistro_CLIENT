@@ -2,11 +2,14 @@ import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form"
 import { AuthContext } from "../../providers/AuthProvider";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 const SignUp = () => {
 
-    const {createUser}=useContext(AuthContext);
+    const nav= useNavigate();
+    const {createUser,updateUserProfile,logOut}=useContext(AuthContext);
 
     const {
         register,
@@ -23,6 +26,23 @@ const SignUp = () => {
         .then(result=>{
             const loggedUser= result.user;
             console.log(loggedUser);
+            updateUserProfile(data.name,data.photourl)
+            .then(()=>{
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "You have registered",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                  reset();
+                  logOut()
+                  nav('/login');
+
+            })
+            .catch((error)=>{
+                console.log(error.message)
+            })
         })
     }
 
@@ -47,6 +67,13 @@ const SignUp = () => {
                             </label>
                             <input type="text" {...register("name", { required: true, maxLength: 20 })} name="name" placeholder="name" className="input input-bordered" required />
                             {errors.name && <span className="text-red-700">This field is required</span>}
+
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Photo URL</span>
+                            </label>
+                            <input type="text" {...register("photourl", { required: true})} name="photourl" placeholder="photo" className="input input-bordered" required />
 
                         </div>
                         <div className="form-control">
@@ -81,6 +108,9 @@ const SignUp = () => {
                             <input className="btn btn-primary" type="submit" value="Sign Up" />
                         </div>
                     </form>
+                    <div className="text-center text-red-700">
+                        <Link to='/login'><p>Already registered? <strong>Sign Up</strong></p></Link>
+                    </div>
                 </div>
             </div>
         </div>

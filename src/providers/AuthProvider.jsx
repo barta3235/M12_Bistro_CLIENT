@@ -1,51 +1,64 @@
 import { createContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
 
 
-export const AuthContext= createContext(null);
+export const AuthContext = createContext(null);
 const auth = getAuth(app);
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
 
-    const [user,setUser]=useState(null);
-    const [loading,setLoading]=useState(true);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const createUser=(email,password)=>{
+    const createUser = (email, password) => {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth,email,password)    
+        return createUserWithEmailAndPassword(auth, email, password)
     }
 
-    const signIn=(email,password)=>{
+    const signIn = (email, password) => {
         setLoading(true)
-        return signInWithEmailAndPassword(auth,email,password);
+        return signInWithEmailAndPassword(auth, email, password);
     }
 
-    const logOut=()=>{
+    const logOut = () => {
         setLoading(true);
         return signOut(auth);
     }
 
+    const updateUserProfile = (name, photo) => {
+        return updateProfile(auth.currentUser, {
+            displayName: name, photoURL: photo
+        })
+            .then(() => {
 
-    useEffect(()=>{
-        const unSubscribe= onAuthStateChanged(auth,currentUser=>{
-            if(currentUser){
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+    }
+
+
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, currentUser => {
+            if (currentUser) {
                 setUser(currentUser);
-            }else{
+            } else {
                 setUser(null);
             }
             setLoading(false);
         });
-        return ()=> {
+        return () => {
             return unSubscribe();
         }
-    },[])
+    }, [])
 
-    const authInfo={
+    const authInfo = {
         user,
         loading,
         createUser,
         signIn,
         logOut,
+        updateUserProfile,
 
     };
 
