@@ -2,6 +2,8 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
@@ -22,7 +24,14 @@ const Login = () => {
         
         signIn(email,password)
         .then(result=>{
-            console.log(result.user)
+            console.log(result.user);
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have logged in",
+                showConfirmButton: false,
+                timer: 1500
+              });
         })
     }
 
@@ -39,6 +48,9 @@ const Login = () => {
 
     return (
         <div className="hero min-h-screen bg-base-200">
+            <Helmet>
+                <title>Login</title>
+            </Helmet>
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center md:w-1/2 lg:text-left">
                     <h1 className="text-5xl font-bold">Login now!</h1>
