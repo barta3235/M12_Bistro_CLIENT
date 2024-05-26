@@ -9,6 +9,8 @@ import Login from "../pages/login/Login";
 import SignUp from "../pages/signUp/SignUp";
 import PrivateRoute from "./PrivateRoute";
 import SecretTest from "../pages/secretTest/SecretTest";
+import Dashboard from "../layout/Dashboard";
+import Cart from "../pages/Dashboard/Cart/Cart";
 
   const router = createBrowserRouter([
     {
@@ -20,32 +22,43 @@ import SecretTest from "../pages/secretTest/SecretTest";
             element:<Home></Home>
         },
         {
-          path:'/menu',
+          path:'menu',
           element:<Menu></Menu>
         },
         {
-          path: '/order',
+          path: 'order',
           element:<Order></Order>
         },
         {
-          path: '/order/:category',
+          path: 'order/:category',
           element:<Order></Order>
         },
 
         {
-          path: '/login',
+          path: 'login',
           element:<Login></Login>
         },
         {
-          path:'/signUp',
+          path:'signUp',
           element:<SignUp></SignUp>
         },
         {
-          path:'/secret',
+          path:'secret',
           element:<PrivateRoute><SecretTest></SecretTest></PrivateRoute>
         }
       ]
     },
+
+    {
+      path:'/dashboard',
+      element:<Dashboard></Dashboard>,
+      children:[
+          {
+            path:'cart',
+            element:<Cart></Cart>
+          }
+      ]
+    }
   ]);
 
 

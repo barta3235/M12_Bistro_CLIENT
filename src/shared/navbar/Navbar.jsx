@@ -24,9 +24,9 @@ const Navbar = () => {
         <li className="flex items-center justify-center"><Link to='/menu'>Our Menu</Link></li>
         <li className="flex items-center justify-center"><Link to='/order/salad'>Order Food</Link></li>
         <li>
-            <Link>
+            <Link to='/dashboard/cart'>
                 <button className="btn">
-                    <FaShoppingCart></FaShoppingCart>
+                    <FaShoppingCart className="bg-white"></FaShoppingCart>
                     <div className="badge badge-secondary">{cart?.length}</div>
                 </button>
             </Link>
