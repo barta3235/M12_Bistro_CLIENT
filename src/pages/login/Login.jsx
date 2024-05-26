@@ -33,7 +33,7 @@ const Login = () => {
                 showConfirmButton: false,
                 timer: 1500
               });
-            nav(location.state? location.state : '/') 
+            nav(location.state?.from?.pathname ? location.state?.from?.pathname : '/') 
         })
     }
 
