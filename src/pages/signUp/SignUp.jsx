@@ -4,46 +4,59 @@ import { useForm } from "react-hook-form"
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 
 const SignUp = () => {
 
-    const nav= useNavigate();
-    const {createUser,updateUserProfile,logOut}=useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
+    const nav = useNavigate();
+    const { createUser, updateUserProfile, logOut } = useContext(AuthContext);
 
     const {
         register,
         handleSubmit,
-        watch,
         reset,
         formState: { errors },
     } = useForm()
 
     const onSubmit = (data) => {
-        console.log(data)
-        
-        createUser(data.email,data.password)
-        .then(result=>{
-            const loggedUser= result.user;
-            console.log(loggedUser);
-            updateUserProfile(data.name,data.photourl)
-            .then(()=>{
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "You have registered",
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-                  reset();
-                  logOut()
-                  nav('/login');
+        console.log(data);
 
+        createUser(data.email, data.password)
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser);
+                updateUserProfile(data.name, data.photourl)
+                    .then(() => {
+
+                        //create user entry in database
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email,
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    reset();
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        title: "You have registered",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    logOut()
+                                    nav('/login');
+                                }
+                            })
+
+                    })
+                    .catch((error) => {
+                        console.log(error.message)
+                    })
             })
-            .catch((error)=>{
-                console.log(error.message)
-            })
-        })
     }
 
 
@@ -73,7 +86,7 @@ const SignUp = () => {
                             <label className="label">
                                 <span className="label-text">Photo URL</span>
                             </label>
-                            <input type="text" {...register("photourl", { required: true})} name="photourl" placeholder="photo" className="input input-bordered" required />
+                            <input type="text" {...register("photourl", { required: true })} name="photourl" placeholder="photo" className="input input-bordered" required />
 
                         </div>
                         <div className="form-control">
@@ -110,6 +123,10 @@ const SignUp = () => {
                     </form>
                     <div className="text-center text-red-700">
                         <Link to='/login'><p>Already registered? <strong>Sign Up</strong></p></Link>
+                    </div>
+                    <div className='divider'></div>
+                    <div className='flex items-center justify-center mb-[20px]'>
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
             </div>

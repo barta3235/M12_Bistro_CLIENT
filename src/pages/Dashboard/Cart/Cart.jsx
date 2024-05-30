@@ -1,4 +1,3 @@
-import { FaTrash } from "react-icons/fa6";
 import useCart from "../../../hooks/useCart";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";

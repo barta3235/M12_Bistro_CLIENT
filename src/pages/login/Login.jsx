@@ -4,17 +4,18 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
 
 const Login = () => {
 
-    const {user,signIn}=useContext(AuthContext);
-    const captchaRef=useRef(null);
-    const [disabled, setDisabled]=useState(true);
-    const nav=useNavigate();
-    const location =useLocation();
-    useEffect(()=>{
+    const { user, signIn } = useContext(AuthContext);
+    const captchaRef = useRef(null);
+    const [disabled, setDisabled] = useState(true);
+    const nav = useNavigate();
+    const location = useLocation();
+    useEffect(() => {
         loadCaptchaEnginge(6);
-    },[])
+    }, [])
 
 
     const handleLogin = (e) => {
@@ -22,29 +23,29 @@ const Login = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        
-        signIn(email,password)
-        .then(result=>{
-            console.log(result.user);
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "You have logged in",
-                showConfirmButton: false,
-                timer: 1500
-              });
-            nav(location.state?.from?.pathname ? location.state?.from?.pathname : '/') 
-        })
+
+        signIn(email, password)
+            .then(result => {
+                console.log(result.user);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "You have logged in",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                nav(location.state?.from?.pathname ? location.state?.from?.pathname : '/')
+            })
     }
 
-    const handleValidateCaptcha=(e)=>{
+    const handleValidateCaptcha = (e) => {
         e.preventDefault();
         // const user_captcha_value= captchaRef.current.value;
-        const user_captcha_value=e.target.value;
-        if(validateCaptcha(user_captcha_value)){
+        const user_captcha_value = e.target.value;
+        if (validateCaptcha(user_captcha_value)) {
             setDisabled(false);
-        }else{
-             setDisabled(true);
+        } else {
+            setDisabled(true);
         }
     }
 
@@ -86,6 +87,10 @@ const Login = () => {
                     </form>
                     <div className='text-center mb-[20px]'>
                         <h1>New User? <Link to='/signUp'><strong className='text-red-700'>Register</strong></Link></h1>
+                    </div>
+                    <div className='divider'></div>
+                    <div className='flex items-center justify-center mb-[20px]'>
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
             </div>
