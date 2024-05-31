@@ -12,7 +12,8 @@ import SecretTest from "../pages/secretTest/SecretTest";
 import Dashboard from "../layout/Dashboard";
 import Cart from "../pages/Dashboard/Cart/Cart";
 import AllUsers from "../pages/Dashboard/Cart/allUsers/AllUsers";
-
+import AddItems from "../pages/Dashboard/addItems/AddItems";
+import AdminRoute from '../routes/AdminRoute'
   const router = createBrowserRouter([
     {
       path: "/",
@@ -58,9 +59,15 @@ import AllUsers from "../pages/Dashboard/Cart/allUsers/AllUsers";
             path:'cart',
             element:<Cart></Cart>
           },
+
+          //admin only routes
           {
             path:'users',
-            element: <AllUsers></AllUsers>
+            element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
+          },
+          {
+            path:'addItems',
+            element:<AdminRoute><AddItems></AddItems></AdminRoute>
           }
       ]
     }

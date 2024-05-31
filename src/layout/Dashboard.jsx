@@ -2,13 +2,15 @@ import { NavLink, Outlet } from "react-router-dom";
 import { FaBook, FaEnvelope, FaList, FaSearch, FaUsers, FaUtensils } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
 
     const [cart] = useCart()
 
     //TODO: get isAdmin value from the database
-    const isAdmin = true;
+    // const isAdmin = true;
+    const [isAdmin]=useAdmin();
 
     return (
         <div className="flex gap-5">
@@ -17,13 +19,14 @@ const Dashboard = () => {
                 <ul className="menu">
                     {
                         isAdmin ? <>
+                            <p className="font-medium mt-[10px] text-[20px] mb-[20px]">Hello Admin</p>
                             <li><NavLink to='/dashboard/manageItems'><FaList></FaList>Manage Items</NavLink></li>
                             <li><NavLink to='/dashboard/adminHome'><FaHome className="text-white"></FaHome>Admin Home</NavLink></li>
                             <li><NavLink to='/dashboard/addItems'><FaUtensils></FaUtensils>Add Items</NavLink></li>
                             <li><NavLink to='/dashboard/bookings'><FaBook></FaBook>Manage Bookings</NavLink></li>
                             <li><NavLink to='/dashboard/users'><FaUsers></FaUsers>All Users</NavLink></li>
                         </> : <>
-                            
+                            <p className="font-medium mt-[10px] text-[20px] mb-[20px]">Welcome User</p>
                         </>
                     }
 
