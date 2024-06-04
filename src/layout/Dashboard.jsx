@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { FaBook, FaEnvelope, FaList, FaSearch, FaUsers, FaUtensils } from "react-icons/fa";
+import { FaAd, FaBook, FaCalendar, FaEnvelope, FaList, FaSearch, FaShoppingCart, FaUsers, FaUtensils } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import useCart from "../hooks/useCart";
 import useAdmin from "../hooks/useAdmin";
@@ -10,7 +10,7 @@ const Dashboard = () => {
 
     //TODO: get isAdmin value from the database
     // const isAdmin = true;
-    const [isAdmin]=useAdmin();
+    const [isAdmin] = useAdmin();
 
     return (
         <div className="flex gap-5">
@@ -26,7 +26,31 @@ const Dashboard = () => {
                             <li><NavLink to='/dashboard/bookings'><FaBook></FaBook>Manage Bookings</NavLink></li>
                             <li><NavLink to='/dashboard/users'><FaUsers></FaUsers>All Users</NavLink></li>
                         </> : <>
-                            <p className="font-medium mt-[10px] text-[20px] mb-[20px]">Welcome User</p>
+                            <li>
+                                <NavLink to="/dashboard/userHome">
+                                    <FaHome></FaHome>
+                                    User Home</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/history">
+                                    <FaCalendar></FaCalendar>
+                                    Not History</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/cart">
+                                    <FaShoppingCart></FaShoppingCart>
+                                    My Cart ({cart.length})</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/review">
+                                    <FaAd></FaAd>
+                                    Add a Review</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/paymentHistory">
+                                    <FaList></FaList>
+                                    Real Payment History</NavLink>
+                            </li>
                         </>
                     }
 
