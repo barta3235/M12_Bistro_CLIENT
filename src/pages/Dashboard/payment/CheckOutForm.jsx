@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const CheckOutForm = () => {
 
     const { user } = useAuth();
-    const [cart,refetch] = useCart();
+    const [cart, refetch] = useCart();
     const [error, setError] = useState('');
     const [transactionId, setTransactionId] = useState('');
 
@@ -19,7 +19,7 @@ const CheckOutForm = () => {
     const axiosSecure = useAxiosSecure();
     const [clientSecret, setClientSecret] = useState('');
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const totalPrice = cart.reduce((total, item) => total + item?.price, 0);
 
@@ -56,6 +56,7 @@ const CheckOutForm = () => {
             setError(error.message)
         } else {
             console.log('payment method', paymentMethod);
+            setError('')
         }
 
         //confirm payment
@@ -75,29 +76,34 @@ const CheckOutForm = () => {
             if (paymentIntent.status === 'succeeded') {
                 console.log('Transaction ID: ', paymentIntent.id);
                 setTransactionId(paymentIntent.id)
+
+                console.log('YOLO')
+                //now save the payment in the database
+                const payment = {
+                    email: user.email,
+                    transactionId: paymentIntent.id,
+                    price: totalPrice,
+                    date: new Date(),
+                    cartIds: cart.map((item) => item._id),
+                    menuItemIds: cart.map(item => item.menuId),
+                    status: 'pending'
+                }
+                console.log(payment)
+                const res = await axiosSecure.post('/payments', payment)
+                // console.log('xxxxx',res.data);
+                refetch();
+                if (res.data?.paymentResult?.insertedId) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Payment is made",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    navigate('/dashboard/paymentHistory');
+                }
             }
 
-            //now save the payment in the database
-            const payment = {
-                email: user.email,
-                transactionId: paymentIntent.id,
-                price: totalPrice,
-                date: new Date(),
-                cartIds: cart.map((item) => item._id),
-                menuItemIds: cart.map(item => item.menuId),
-                status: 'pending'
-            }
-            const res = await axiosSecure.post('/payments', payment)
-            refetch();
-            if (res.data.paymentResult.insertedId) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Payment is made",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                navigate('/dashboard/paymentHistory');
-            }
+
 
         }
 
